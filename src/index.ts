@@ -2,12 +2,15 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { cwd } from "node:process";
 
-export type Value = string | string[] | number | boolean | undefined | null;
+import { Value, Environment } from "./_types";
 
-export interface Environment {
-  [key: string]: Value;
-}
-
+/**
+ * Parse an environment file into a typed object.
+ *
+ * @template T - Expected return type (defaults to Environment)
+ * @param name - File name (defaults to ".env")
+ * @param context - Directory to resolve from (defaults to process cwd)
+ */
 export function parse<T = Environment>(name?: string, context = cwd()) {
   const source = join(context, name || ".env");
 
@@ -20,6 +23,7 @@ export function parse<T = Environment>(name?: string, context = cwd()) {
       if (line) {
         const [key, value] = line.split("=");
 
+        // Prevent overwriting existing keys
         if (key && current && current[key] === undefined) {
           current[key] = resolve(value) as Value;
         }
@@ -31,6 +35,18 @@ export function parse<T = Environment>(name?: string, context = cwd()) {
   return commit as T;
 }
 
+/**
+ * Resolve a string value into a typed JavaScript value.
+ *
+ * Handles:
+ * - booleans ("true", "false")
+ * - null / undefined
+ * - numbers
+ * - quoted strings
+ * - comma-separated arrays
+ *
+ * @param value - Raw string value from env file
+ */
 export function resolve(value?: string): Value {
   if (!value) {
     return undefined;
