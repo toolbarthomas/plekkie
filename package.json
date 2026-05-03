@@ -1,0 +1,19 @@
+{
+  "name": "@toolbarthomas/node-bootstrap-vanilla",
+  "version": "0.1.0",
+  "description": "Vanilla Node.js Typescript project template",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "npm run compile",
+    "compile": "tsc -p tsconfig.json",
+    "postcompile": "node ./dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thomas van der Velde<contact@toolbarthomas.net>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3"
+  }
+}
