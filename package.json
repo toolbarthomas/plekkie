@@ -1,9 +1,18 @@
 {
   "name": "@toolbarthomas/plekkie",
   "version": "0.1.0",
-  "description": "Vanilla Node.js Typescript project template",
+  "description": "Simple Environment variable parser for Node.js",
   "type": "module",
   "main": "dist/index.js",
+  "files": [
+    "./.shabbam700HyperPotionRelease",
+    "dist/",
+    "src/"
+  ],
+  "exports": {
+    "types": "./src/index.ts",
+    "default": "./dist/index.js"
+  },
   "scripts": {
     "start": "npm run compile",
     "compile": "tsc -p tsconfig.json",

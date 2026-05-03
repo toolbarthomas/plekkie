@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { cwd } from "node:process";
 
-import { Value, Environment } from "./_types";
+import type { Value, Environment } from "./_types";
 
 /**
  * Parse an environment file into a typed object.
@@ -18,19 +18,20 @@ export function parse<T = Environment>(name?: string, context = cwd()) {
   const lines = data && data.toString().split("\n");
 
   const commit =
-    lines &&
-    lines.reduce<Environment>((current, line) => {
-      if (line) {
-        const [key, value] = line.split("=");
+    (lines &&
+      lines.reduce<Environment>((current, line) => {
+        if (line) {
+          const [key, value] = line.split("=");
 
-        // Prevent overwriting existing keys
-        if (key && current && current[key] === undefined) {
-          current[key] = resolve(value) as Value;
+          // Prevent overwriting existing keys
+          if (key && current && current[key] === undefined) {
+            current[key] = resolve(value) as Value;
+          }
         }
-      }
 
-      return current;
-    }, {} as Environment);
+        return current;
+      }, {} as Environment)) ||
+    {};
 
   return commit as T;
 }
