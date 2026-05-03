@@ -4,13 +4,7 @@ A tiny, opinionated environment loader for Node.js.
 
 Plekkie turns your `.env` file into a structured, typed configuration object — without mutating `process.env`.
 
----
-
-## Why plekkie?
-
-Most env tools just dump strings.
-
-Plekkie gives you:
+Most env tools just dump strings, this library gives you:
 
 - Flat structure only
 - No variable expansion (${VAR})
