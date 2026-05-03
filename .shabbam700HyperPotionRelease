@@ -1,3 +1,6 @@
 version=0.1.0
 private=false
 hash=0011223344
+nothing=
+null=null
+undefined=undefined

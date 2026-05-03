@@ -1,9 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { loadEnvFile } from "node:process";
 import { cwd } from "node:process";
 
-export type Value = string | string[] | number | boolean | undefined;
+export type Value = string | string[] | number | boolean | undefined | null;
 
 export interface Environment {
   [key: string]: Value;
@@ -29,19 +28,16 @@ export function parse<T = Environment>(name?: string, context = cwd()) {
       return current;
     }, {} as Environment);
 
-  console.log("source", lines);
-
   return commit as T;
 }
 
-// Should resolve  to either (  string | string[] | number | boolean | undefined)
-export function resolve(
-  value?: string,
-): string | string[] | number | boolean | undefined {
-  if (!value) return undefined;
+export function resolve(value?: string): Value {
+  if (!value) {
+    return undefined;
+  }
+
   value = value.trim();
 
-  // Remove surrounding quotes if present
   if (
     (value.startsWith('"') && value.endsWith('"')) ||
     (value.startsWith("'") && value.endsWith("'"))
@@ -49,23 +45,35 @@ export function resolve(
     value = value.slice(1, -1);
   }
 
-  // Check for boolean
-  if (value.toLowerCase() === "true") return true;
-  if (value.toLowerCase() === "false") return false;
+  const lower = value.toLowerCase();
 
-  // Check for number
+  switch (lower) {
+    case "true":
+      return true;
+
+    case "false":
+      return false;
+
+    case "null":
+      return null;
+
+    case "undefined":
+      return undefined;
+  }
+
   const num = parseFloat(value);
-  if (!isNaN(num) && isFinite(num) && num.toString() === value) return num;
 
-  // Check for array (comma separated, but not if it's a quoted string with commas)
+  if (!isNaN(num) && isFinite(num) && num.toString() === value) {
+    return num;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(String);
+  }
+
   if (value.includes(",")) {
     return value.split(",").map((s) => s.trim());
   }
 
-  // Default to string
   return value;
 }
-
-const env = parse<{ version: number }>(".shabbam700HyperPotionRelease");
-
-console.log(env);
