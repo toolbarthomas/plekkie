@@ -4,7 +4,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
-    "outDir": "./dist/esm",
+    "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
