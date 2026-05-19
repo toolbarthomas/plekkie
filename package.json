@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Simple Environment variable parser for Node.js",
   "type": "module",
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
   "files": [
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "npm run compile",
-    "compile": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'},null,2))\"",
+    "compile": "tsc -p tsconfig.json && tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json",
     "postcompile": "node ./dist/esm/index.js",
     "pretest": "npm run compile",
     "test": "node ./dist/esm/tests/core.test.js"
