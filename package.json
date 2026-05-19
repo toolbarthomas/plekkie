@@ -3,22 +3,27 @@
   "version": "0.1.0",
   "description": "Simple Environment variable parser for Node.js",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "./.shabbam700HyperPotionRelease",
     "dist/",
     "src/"
   ],
   "exports": {
-    "types": "./src/index.ts",
-    "default": "./dist/index.js"
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
   },
   "scripts": {
     "start": "npm run compile",
-    "compile": "tsc -p tsconfig.json",
-    "postcompile": "node ./dist/index.js",
-    "pretest": "tsc -p tsconfig.json",
-    "test": "node ./dist/tests/core.test.js"
+    "compile": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'},null,2))\"",
+    "postcompile": "node ./dist/esm/index.js",
+    "pretest": "npm run compile",
+    "test": "node ./dist/esm/tests/core.test.js"
   },
   "author": "Thomas van der Velde<contact@toolbarthomas.net>",
   "license": "MIT",

@@ -16,7 +16,7 @@ Most env tools just dump strings, this library gives you:
 ## Installation
 
 ```bash
-$ npm install plekkie
+$ npm install @toolbarthomas/plekkie
 
 ```
 ## Usage
@@ -29,7 +29,7 @@ DEBUG=true
 
 
 ```ts
-import { parse } from "plekkie";
+import { parse } from "@toolbarthomas/plekkie";
 
 interface Props {
   port?: number

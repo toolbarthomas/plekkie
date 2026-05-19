@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "outDir": "./dist/esm",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./dist/types"
+  }
+}
