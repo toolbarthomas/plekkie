@@ -20,8 +20,15 @@ export function parse<T = Environment>(name?: string, context = cwd()) {
   const commit =
     (lines &&
       lines.reduce<Environment>((current, line) => {
+        const l = line.trim();
+
         if (line) {
-          const [key, value] = line.split("=");
+          // Ignores comment lines
+          if (l.startsWith("#") || l.startsWith("//")) {
+            return current;
+          }
+
+          const [key, value] = l.split("=");
 
           // Prevent overwriting existing keys
           if (key && current && current[key] === undefined) {
